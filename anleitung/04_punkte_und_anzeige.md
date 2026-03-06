@@ -141,19 +141,10 @@ Ergänze die Funktion `rundeStarten` am Ende:
 │  LED: Setze RGB auf [ Gold/Gelb: RGB(255,200,0) ]     │
 │  Grundlagen: Zeige Zeichenkette [ "ENDE!" ]            │
 │  Grundlagen: Pausiere [ 1000 ] ms                      │
-│  Grundlagen: Zeige Zeichenkette [ "1:" ]               │
-│  Grundlagen: Zeige Zahl [ punkteS1 ]                   │
-│  Grundlagen: Zeige Zeichenkette [ "2:" ]               │
-│  Grundlagen: Zeige Zahl [ punkteS2 ]                   │
-│  Grundlagen: Zeige Zeichenkette [ "3:" ]               │
-│  Grundlagen: Zeige Zahl [ punkteS3 ]                   │
-│  Grundlagen: Zeige Zeichenkette [ "4:" ]               │
-│  Grundlagen: Zeige Zahl [ punkteS4 ]                   │
-│  Grundlagen: Pausiere [ 500 ] ms                       │
 │  Grundlagen: Zeige Zeichenkette [ ">>S" ]              │
 │  Grundlagen: Zeige Zahl [ gesamtsiegerID ]             │
 │                                                          │
-│  // Punktestand-LED-Visualisierung anzeigen            │
+│  // Punktestand-Balkendiagramm anzeigen                │
 │  Grundlagen: Pausiere [ 2000 ] ms                      │
 │  rufauf: punkteVisualisieren                           │
 │                                                          │

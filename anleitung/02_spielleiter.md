@@ -375,35 +375,27 @@ Empfangene Zahl: 21
 
 ## 2.7 Punktestand anzeigen
 
-### Schritt 10: Taste B zeigt Punkte
+### Schritt 10: Taste B zeigt Punkte als Balkendiagramm
 
-Wenn Taste B gedrückt wird (und keine Runde läuft), zeigt der Spielleiter alle Punkte:
+Wenn Taste B gedrückt wird (und keine Runde läuft), zeigt der Spielleiter alle Punkte als **Balkendiagramm auf der LED-Matrix** – jede Spalte steht für einen Spieler, die Balkenhöhe für seinen Punktestand.
+
+*Die Funktion `punkteVisualisieren` wird in Kapitel 4 implementiert. Sie zeichnet für jeden Spieler eine Spalte der 5×5-Matrix.*
 
 ```
 ┌─ Wenn Knopf B gedrückt ─────────────────────────────────┐
 │                                                           │
 │  Wenn [ rundeAktiv ] = [ falsch ] dann:                 │
-│                                                           │
-│      Grundlagen: Zeige Zeichenkette [ "S1:" ]           │
-│      Grundlagen: Zeige Zahl [ punkteS1 ]                │
-│      Grundlagen: Pausiere [ 500 ] ms                    │
-│                                                           │
-│      Grundlagen: Zeige Zeichenkette [ "S2:" ]           │
-│      Grundlagen: Zeige Zahl [ punkteS2 ]                │
-│      Grundlagen: Pausiere [ 500 ] ms                    │
-│                                                           │
-│      Grundlagen: Zeige Zeichenkette [ "S3:" ]           │
-│      Grundlagen: Zeige Zahl [ punkteS3 ]                │
-│      Grundlagen: Pausiere [ 500 ] ms                    │
-│                                                           │
-│      Grundlagen: Zeige Zeichenkette [ "S4:" ]           │
-│      Grundlagen: Zeige Zahl [ punkteS4 ]                │
-│      Grundlagen: Pausiere [ 500 ] ms                    │
-│                                                           │
+│      rufauf: punkteVisualisieren                        │
+│      Grundlagen: Pausiere [ 3000 ] ms                   │
 │      Grundlagen: Bildschirm löschen                     │
 │                                                           │
 └───────────────────────────────────────────────────────────┘
 ```
+
+**Wie funktioniert die Matrix-Anzeige?**
+- Spalte 0 = Spieler 1, Spalte 1 = Spieler 2 usw.
+- Die Balkenhöhe entspricht `Punkte + 2` (damit auch –2 darstellbar ist)
+- 0 Punkte → 2 LEDs leuchten, +3 Punkte → 5 LEDs, –2 Punkte → 0 LEDs
 
 ---
 
@@ -421,7 +413,7 @@ SPIELLEITER – Übersicht aller Blöcke
    → Wenn keine Runde läuft: rundeStarten aufrufen
 
 ► Wenn Knopf B gedrückt
-   → Wenn keine Runde läuft: alle Punkte anzeigen
+   → Wenn keine Runde läuft: Balkendiagramm anzeigen (punkteVisualisieren)
 
 ► Funk: Wenn Zahl empfangen (empfangeneZahl)
    → Wenn Runde aktiv UND noch nicht gewonnen: antwortVerarbeiten aufrufen
@@ -473,14 +465,15 @@ Dein Mitschüler hat folgenden Fehler im Programm: Er hat **vergessen**, `rundeG
 2. Könnte derselbe Spieler mehrere Punkte für eine Runde bekommen? Erkläre!
 3. Wie würde das Spielverhalten sich verändern?
 
-### Aufgabe 2.4: Punkteanzeige verbessern ⭐⭐
+### Aufgabe 2.4: Balkendiagramm analysieren und erweitern ⭐⭐
 
-Die aktuelle Punkteanzeige zeigt Punkte immer nacheinander. Ändere das Programm so, dass **nur der Spielleiter-Calliope** die Punkte mit einem visuellen Muster darstellt:
+Das Programm zeigt Punktestände als Balkendiagramm auf der LED-Matrix. Analysiere die Funktionen `punkteVisualisieren` und `zeichneSpalte` aus Kapitel 4.
 
-- Überlege: Wie könnte man 4 Punktestände gleichzeitig auf einer 5×5-Matrix darstellen?
-- Implementiere: Zeige für jeden Spieler eine **Spalte der LED-Matrix**, bei der die Anzahl der leuchtenden LEDs von unten dem Punkte-Stand entspricht (max. 5 LEDs pro Spalte).
+1. **Verstehen:** Warum wird `punkte + 2` als Balkenhöhe verwendet und nicht direkt `punkte`?
+2. **Grenzen bestimmen:** Welchen minimalen und maximalen Punktestand kann das Diagramm korrekt darstellen? Was passiert bei mehr als 3 Punkten?
+3. **Erweitern:** Füge nach der Balkenanzeige eine kurze Text-Ausgabe hinzu, die nur den Gesamtführenden nennt (z. B. `"S2!"` wenn Spieler 2 führt).
 
-*Tipp: Schau dir die Blöcke unter **„LED"** → `Setze LED (x, y) auf wahr/falsch` an.*
+*Tipp: Die Balken-Funktionen findest du in Kapitel 4 – lies sie durch, bevor du erweiterst.*
 
 ### Aufgabe 2.5: Zeitmessung ⭐⭐⭐
 

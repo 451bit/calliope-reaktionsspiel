@@ -60,18 +60,8 @@ input.on_button_pressed(Button.A, on_button_a)
 
 def on_button_b():
     if not runde_aktiv:
-        basic.show_string("S1:")
-        basic.show_number(punkte_s1)
-        basic.pause(300)
-        basic.show_string("S2:")
-        basic.show_number(punkte_s2)
-        basic.pause(300)
-        basic.show_string("S3:")
-        basic.show_number(punkte_s3)
-        basic.pause(300)
-        basic.show_string("S4:")
-        basic.show_number(punkte_s4)
-        basic.pause(300)
+        punkte_visualisieren()
+        basic.pause(3000)
         basic.clear_screen()
 input.on_button_pressed(Button.B, on_button_b)
 
@@ -235,9 +225,6 @@ def spiel_ende():
     else:
         basic.show_string("S" + str(gesamtsieger) + " WIN!")
     basic.pause(1000)
-    # Einzelpunktstände anzeigen
-    basic.show_string("1:" + str(punkte_s1) + " 2:" + str(punkte_s2))
-    basic.show_string("3:" + str(punkte_s3) + " 4:" + str(punkte_s4))
     # Balkendiagramm auf Matrix
     basic.pause(1000)
     punkte_visualisieren()
