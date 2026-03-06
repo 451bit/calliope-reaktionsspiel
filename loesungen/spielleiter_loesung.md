@@ -1,4 +1,4 @@
-# Lösung: Spielleiter – vollständiger JavaScript-Code
+# Lösung: Spielleiter – vollständiger Python-Code (MakeCode)
 
 > **Hinweis für Lehrkräfte:** Diese Datei enthält den vollständigen Referenz-Code. Schülerinnen und Schüler sollten die Lösung erst konsultieren, nachdem sie das Problem selbst versucht haben zu lösen.
 
@@ -7,261 +7,317 @@
 ## So verwendest du den Code in MakeCode
 
 1. Öffne [makecode.calliope.cc](https://makecode.calliope.cc)
-2. Erstelle ein neues Projekt
-3. Klicke unten links auf **„JavaScript"** (statt „Blöcke")
-4. Lösche den bestehenden Code
+2. Erstelle ein neues Projekt: **„+ Neues Projekt"**
+3. Klicke unten in der Mitte auf **„Python"** (neben „Blöcke" und „JavaScript")
+4. Lösche den bestehenden Code vollständig
 5. Kopiere den Code unten hinein
-6. Klicke auf **„Blöcke"**, um die Blöcke-Ansicht zu sehen
-7. Übertrage das Programm auf den Calliope
+6. Klicke auf **„Herunterladen"** → `.hex`-Datei auf den Calliope ziehen
+7. Optional: Klicke auf **„Blöcke"**, um die automatisch erzeugten Blöcke zu sehen
+
+> **💡 Tipp:** MakeCode übersetzt den Python-Code intern in JavaScript und dann in Maschinencode. Du kannst jederzeit zwischen Python- und Blöcke-Ansicht wechseln.
 
 ---
 
 ## Vollständiger Code: Spielleiter
 
-```javascript
-// ============================================
-// CALLIOPE REAKTIONSSPIEL – SPIELLEITER
-// Klasse 10 Informatik
-// ============================================
+```python
+# ============================================
+# CALLIOPE REAKTIONSSPIEL – SPIELLEITER
+# Klasse 10 Informatik
+# MakeCode Python
+# ============================================
 
-// --- Variablen ---
-let punkteS1 = 0
-let punkteS2 = 0
-let punkteS3 = 0
-let punkteS4 = 0
-let aktuelleAufgabe = 0
-let rundeAktiv = false
-let rundeGewonnen = false
-let aktuelleRunde = 0
-let rundenAnzahl = 5
-let rundenStartzeit = 0
+# --- Variablen ---
+punkte_s1 = 0
+punkte_s2 = 0
+punkte_s3 = 0
+punkte_s4 = 0
+aktuelle_aufgabe = 0
+runde_aktiv = False
+runde_gewonnen = False
+aktuelle_runde = 0
+runden_anzahl = 5
+runden_startzeit = 0
 
-// --- Initialisierung ---
-radio.setGroup(1)
-radio.setTransmitPower(7)
-punkteS1 = 0
-punkteS2 = 0
-punkteS3 = 0
-punkteS4 = 0
-aktuelleAufgabe = 0
-rundeAktiv = false
-rundeGewonnen = false
-aktuelleRunde = 0
-basic.showIcon(IconNames.Yes)
+# --- Initialisierung ---
+radio.set_group(1)
+radio.set_transmit_power(7)
+basic.show_icon(IconNames.YES)
 
-// --- Taste A: Runde starten ---
-input.onButtonPressed(Button.A, function () {
-    if (!rundeAktiv) {
-        rundeStarten()
-    }
-})
+# ============================================
+# TASTE A → Runde starten
+# ============================================
 
-// --- Taste B: Punkte anzeigen ---
-input.onButtonPressed(Button.B, function () {
-    if (!rundeAktiv) {
-        basic.showString("S1:")
-        basic.showNumber(punkteS1)
+@input.on_button_pressed(Button.A)
+def on_button_a():
+    if not runde_aktiv:
+        runde_starten()
+
+
+# ============================================
+# TASTE B → Punktestand anzeigen
+# ============================================
+
+@input.on_button_pressed(Button.B)
+def on_button_b():
+    if not runde_aktiv:
+        basic.show_string("S1:")
+        basic.show_number(punkte_s1)
         basic.pause(300)
-        basic.showString("S2:")
-        basic.showNumber(punkteS2)
+        basic.show_string("S2:")
+        basic.show_number(punkte_s2)
         basic.pause(300)
-        basic.showString("S3:")
-        basic.showNumber(punkteS3)
+        basic.show_string("S3:")
+        basic.show_number(punkte_s3)
         basic.pause(300)
-        basic.showString("S4:")
-        basic.showNumber(punkteS4)
+        basic.show_string("S4:")
+        basic.show_number(punkte_s4)
         basic.pause(300)
-        basic.clearScreen()
-    }
-})
+        basic.clear_screen()
 
-// --- Funk: Zahl empfangen ---
-radio.onReceivedNumber(function (receivedNumber) {
-    if (rundeAktiv && !rundeGewonnen) {
-        antwortVerarbeiten(receivedNumber)
-    }
-})
 
-// === FUNKTIONEN ===
+# ============================================
+# FUNK: Zahl empfangen (Spieler-Antworten)
+# ============================================
 
-function rundeStarten() {
-    rundeAktiv = true
-    rundeGewonnen = false
-    // Zufällige Aufgabe (1 = A, 2 = B, 3 = A+B)
-    aktuelleAufgabe = Math.randomRange(1, 3)
-    signalAnzeigen()
-    // Signal per Funk senden
-    radio.sendNumber(aktuelleAufgabe)
-    rundenStartzeit = input.runningTime()
-    // 5 Sekunden auf Antworten warten
+@radio.on_received_number
+def on_received_number(received_number):
+    if runde_aktiv and not runde_gewonnen:
+        antwort_verarbeiten(received_number)
+
+
+# === FUNKTIONEN ===
+
+def runde_starten():
+    global runde_aktiv, runde_gewonnen, aktuelle_aufgabe
+    global aktuelle_runde, runden_startzeit
+
+    runde_aktiv = True
+    runde_gewonnen = False
+    # Zufällige Aufgabe (1 = A, 2 = B, 3 = A+B)
+    aktuelle_aufgabe = randint(1, 3)
+    signal_anzeigen()
+    # Signal per Funk senden
+    radio.send_number(aktuelle_aufgabe)
+    runden_startzeit = input.running_time()
+    # 5 Sekunden auf Antworten warten
     basic.pause(5000)
-    // Niemand hat gewonnen?
-    if (!rundeGewonnen) {
-        basic.showString("---")
-        calliope.setRGBLed(0, 0, 0)
-    }
-    aktuelleRunde += 1
-    rundeAktiv = false
-    // Spielende prüfen
-    if (aktuelleRunde >= rundenAnzahl) {
-        spielEnde()
-    }
-}
+    # Niemand hat gewonnen?
+    if not runde_gewonnen:
+        basic.show_string("---")
+        calliope.set_rgb_led(0, 0, 0)
+    aktuelle_runde += 1
+    runde_aktiv = False
+    # Spielende prüfen
+    if aktuelle_runde >= runden_anzahl:
+        spiel_ende()
 
-function signalAnzeigen() {
-    if (aktuelleAufgabe == 1) {
-        // Grün + hoher Ton → Taste A
-        calliope.setRGBLed(0, 255, 0)
-        basic.showLeds(`
+
+def signal_anzeigen():
+    if aktuelle_aufgabe == 1:
+        # Grün + hoher Ton → Taste A
+        calliope.set_rgb_led(0, 255, 0)
+        basic.show_leds("""
             # . . . #
             # . . . #
             # # # # #
             # . . . #
             # . . . #
-            `)
-        music.playTone(Note.A5, music.beat(BeatFraction.Whole))
-    } else if (aktuelleAufgabe == 2) {
-        // Rot + tiefer Ton → Taste B
-        calliope.setRGBLed(255, 0, 0)
-        basic.showLeds(`
+            """)
+        music.play_tone(Note.A5, music.beat(BeatFraction.WHOLE))
+    elif aktuelle_aufgabe == 2:
+        # Rot + tiefer Ton → Taste B
+        calliope.set_rgb_led(255, 0, 0)
+        basic.show_leds("""
             # # # . .
             # . . # .
             # # # . .
             # . . # .
             # # # . .
-            `)
-        music.playTone(Note.A3, music.beat(BeatFraction.Whole))
-    } else if (aktuelleAufgabe == 3) {
-        // Blau + mittlerer Ton → A+B gleichzeitig
-        calliope.setRGBLed(0, 0, 255)
-        basic.showIcon(IconNames.Heart)
-        music.playTone(Note.A4, music.beat(BeatFraction.Whole))
-    }
-}
+            """)
+        music.play_tone(Note.A3, music.beat(BeatFraction.WHOLE))
+    elif aktuelle_aufgabe == 3:
+        # Blau + mittlerer Ton → A+B gleichzeitig
+        calliope.set_rgb_led(0, 0, 255)
+        basic.show_icon(IconNames.HEART)
+        music.play_tone(Note.A4, music.beat(BeatFraction.WHOLE))
 
-function antwortVerarbeiten(nachricht: number) {
-    let spielerID = Math.floor(nachricht / 10)
-    let aktion = nachricht % 10
-    // Gültigkeitsprüfung
-    if (spielerID < 1 || spielerID > 4) return
-    if (aktion == aktuelleAufgabe) {
-        richtigGeantwortet(spielerID)
-    } else {
-        falschGeantwortet(spielerID)
-    }
-}
 
-function richtigGeantwortet(siegerID: number) {
-    rundeGewonnen = true
-    // Antwortzeit berechnen
-    let antwortzeit = input.runningTime() - rundenStartzeit
-    // Punkte je nach Geschwindigkeit
-    let bonus = 1
-    if (antwortzeit < 1000) {
+def antwort_verarbeiten(nachricht):
+    spieler_id = nachricht // 10
+    aktion = nachricht % 10
+    # Gültigkeitsprüfung
+    if spieler_id < 1 or spieler_id > 4:
+        return
+    if aktion == aktuelle_aufgabe:
+        richtig_geantwortet(spieler_id)
+    else:
+        falsch_geantwortet(spieler_id)
+
+def richtig_geantwortet(sieger_id):
+    global runde_gewonnen
+    global punkte_s1, punkte_s2, punkte_s3, punkte_s4
+
+    runde_gewonnen = True
+    # Antwortzeit berechnen
+    antwortzeit = input.running_time() - runden_startzeit
+    # Punkte je nach Geschwindigkeit
+    if antwortzeit < 1000:
         bonus = 3
-    } else if (antwortzeit < 3000) {
+    elif antwortzeit < 3000:
         bonus = 2
-    }
-    // Punkte vergeben
-    if (siegerID == 1) { punkteS1 += bonus }
-    else if (siegerID == 2) { punkteS2 += bonus }
-    else if (siegerID == 3) { punkteS3 += bonus }
-    else { punkteS4 += bonus }
-    // Gewinner anzeigen
-    calliope.setRGBLed(0, 255, 0)
-    basic.showString("S" + siegerID)
-    // Gewinner per Funk melden
-    radio.sendValue("gewinner", siegerID)
+    else:
+        bonus = 1
+    # Punkte vergeben
+    if sieger_id == 1:
+        punkte_s1 += bonus
+    elif sieger_id == 2:
+        punkte_s2 += bonus
+    elif sieger_id == 3:
+        punkte_s3 += bonus
+    else:
+        punkte_s4 += bonus
+    # Gewinner anzeigen
+    calliope.set_rgb_led(0, 255, 0)
+    basic.show_string("S" + str(sieger_id))
+    # Gewinner per Funk melden
+    radio.send_value("gewinner", sieger_id)
     basic.pause(2000)
-    calliope.setRGBLed(0, 0, 0)
-    basic.clearScreen()
-}
+    calliope.set_rgb_led(0, 0, 0)
+    basic.clear_screen()
 
-function falschGeantwortet(spielerID: number) {
-    // Punkt abziehen
-    if (spielerID == 1) { punkteS1 -= 1 }
-    else if (spielerID == 2) { punkteS2 -= 1 }
-    else if (spielerID == 3) { punkteS3 -= 1 }
-    else { punkteS4 -= 1 }
-    // Spieler informieren
-    radio.sendValue("falsch", spielerID)
-}
 
-function spielEnde() {
-    // Gesamtsieger ermitteln
-    let maxPunkte = punkteS1
-    let gesamtsiegerID = 1
-    if (punkteS2 > maxPunkte) { maxPunkte = punkteS2; gesamtsiegerID = 2 }
-    if (punkteS3 > maxPunkte) { maxPunkte = punkteS3; gesamtsiegerID = 3 }
-    if (punkteS4 > maxPunkte) { maxPunkte = punkteS4; gesamtsiegerID = 4 }
-    // Gleichstand prüfen
-    let gleichstand = 0
-    if (punkteS1 == maxPunkte) gleichstand++
-    if (punkteS2 == maxPunkte) gleichstand++
-    if (punkteS3 == maxPunkte) gleichstand++
-    if (punkteS4 == maxPunkte) gleichstand++
-    // Ergebnis per Funk senden
-    radio.sendValue("ende", gesamtsiegerID)
-    // Ergebnis anzeigen
-    calliope.setRGBLed(255, 200, 0)
-    basic.showString("ENDE!")
+def falsch_geantwortet(spieler_id):
+    global punkte_s1, punkte_s2, punkte_s3, punkte_s4
+
+    # Punkt abziehen
+    if spieler_id == 1:
+        punkte_s1 -= 1
+    elif spieler_id == 2:
+        punkte_s2 -= 1
+    elif spieler_id == 3:
+        punkte_s3 -= 1
+    else:
+        punkte_s4 -= 1
+    # Spieler informieren
+    radio.send_value("falsch", spieler_id)
+
+
+def spiel_ende():
+    global aktuelle_runde
+    global punkte_s1, punkte_s2, punkte_s3, punkte_s4
+
+    # Gesamtsieger ermitteln
+    max_punkte = punkte_s1
+    gesamtsieger = 1
+    if punkte_s2 > max_punkte:
+        max_punkte = punkte_s2
+        gesamtsieger = 2
+    if punkte_s3 > max_punkte:
+        max_punkte = punkte_s3
+        gesamtsieger = 3
+    if punkte_s4 > max_punkte:
+        max_punkte = punkte_s4
+        gesamtsieger = 4
+    # Gleichstand prüfen
+    gleichstand = 0
+    for p in [punkte_s1, punkte_s2, punkte_s3, punkte_s4]:
+        if p == max_punkte:
+            gleichstand += 1
+    # Ergebnis per Funk senden
+    radio.send_value("ende", gesamtsieger)
+    # Ergebnis anzeigen
+    calliope.set_rgb_led(255, 200, 0)
+    basic.show_string("ENDE!")
     basic.pause(500)
-    if (gleichstand > 1) {
-        basic.showString("DRAW!")
-    } else {
-        basic.showString("S" + gesamtsiegerID + " WIN!")
-    }
+    if gleichstand > 1:
+        basic.show_string("DRAW!")
+    else:
+        basic.show_string("S" + str(gesamtsieger) + " WIN!")
     basic.pause(1000)
-    // Einzelpunktstände anzeigen
-    basic.showString("1:" + punkteS1 + " 2:" + punkteS2)
-    basic.showString("3:" + punkteS3 + " 4:" + punkteS4)
-    // Balkendiagramm auf Matrix
+    # Einzelpunktstände anzeigen
+    basic.show_string("1:" + str(punkte_s1) + " 2:" + str(punkte_s2))
+    basic.show_string("3:" + str(punkte_s3) + " 4:" + str(punkte_s4))
+    # Balkendiagramm auf Matrix
     basic.pause(1000)
-    punkteVisualisieren()
+    punkte_visualisieren()
     basic.pause(5000)
-    // Spiel zurücksetzen
-    aktuelleRunde = 0
-    punkteS1 = 0
-    punkteS2 = 0
-    punkteS3 = 0
-    punkteS4 = 0
-    calliope.setRGBLed(0, 0, 0)
-    basic.clearScreen()
-    basic.showIcon(IconNames.Yes)
-}
+    # Spiel zurücksetzen
+    aktuelle_runde = 0
+    punkte_s1 = 0
+    punkte_s2 = 0
+    punkte_s3 = 0
+    punkte_s4 = 0
+    calliope.set_rgb_led(0, 0, 0)
+    basic.clear_screen()
+    basic.show_icon(IconNames.YES)
 
-function punkteVisualisieren() {
-    basic.clearScreen()
-    zeichneSpalte(0, punkteS1)
-    zeichneSpalte(1, punkteS2)
-    zeichneSpalte(2, punkteS3)
-    zeichneSpalte(3, punkteS4)
-}
 
-function zeichneSpalte(spalte: number, punkte: number) {
-    // Normierung: +2, damit -2..+3 darstellbar ist (0..5 LEDs)
-    let hoehe = punkte + 2
-    hoehe = Math.max(0, Math.min(5, hoehe))
-    // Von unten nach oben LEDs setzen
-    for (let y = 0; y < hoehe; y++) {
-        led.plot(spalte, 4 - y)
-    }
-}
+def punkte_visualisieren():
+    basic.clear_screen()
+    zeige_spalte(0, punkte_s1)
+    zeige_spalte(1, punkte_s2)
+    zeige_spalte(2, punkte_s3)
+    zeige_spalte(3, punkte_s4)
+
+
+def zeige_spalte(spalte, punkte):
+    # Normierung: +2, damit -2..+3 darstellbar ist (0..5 LEDs)
+    hoehe = punkte + 2
+    hoehe = max(0, min(5, hoehe))
+    # Von unten nach oben LEDs setzen
+    for i in range(hoehe):
+        led.plot(spalte, 4 - i)
 ```
+
+---
+
+## Code und Blöcke im Vergleich
+
+Nach dem Einfügen kannst du in MakeCode auf **„Blöcke"** wechseln – der Code wird automatisch in die entsprechenden Blöcke übersetzt.
+
+### Wichtige Python-Besonderheiten in MakeCode
+
+| Python (MakeCode) | Erklärung |
+|-------------------|-----------|
+| `@input.on_button_pressed(Button.A)` | Dekorator – registriert eine Funktion als Ereignishandler |
+| `@radio.on_received_number` | Wird aufgerufen, wenn eine Zahl per Funk empfangen wird |
+| `global punkte_s1` | In Python muss man globale Variablen mit `global` deklarieren, bevor man sie in einer Funktion ändert |
+| `nachricht // 10` | Ganzzahlige Division (kein Rest) |
+| `nachricht % 10` | Modulo – gibt den Rest der Division zurück |
+| `randint(1, 3)` | Zufallszahl zwischen 1 und 3 (inklusiv) |
+
+---
+
+## Häufige Fehler
+
+### `global` vergessen
+
+**Problem:** Variable wird in der Funktion nicht verändert – es entsteht eine neue lokale Variable.  
+**Lösung:** Schreibe `global variablenname` als erste Zeile in die Funktion.
+
+```python
+# Falsch:
+def richtig_geantwortet(sieger_id):
+    runde_gewonnen = True       # ← erzeugt eine NEUE lokale Variable!
+
+# Richtig:
+def richtig_geantwortet(sieger_id):
+    global runde_gewonnen
+    runde_gewonnen = True       # ← ändert die globale Variable
+```
+
+### Einrückung (Indentation)
+
+**Problem:** `IndentationError` in MakeCode  
+**Ursache:** Python verwendet Einrückungen (4 Leerzeichen) statt `{}`-Klammern. Alle Zeilen innerhalb einer Funktion oder `if`-Bedingung müssen gleich weit eingerückt sein.
 
 ---
 
 ## Hinweise für Lehrkräfte
 
-### Bekannte Einschränkungen
-
-1. **`calliope.setRGBLed(r, g, b)`**: Die genaue Schreibweise der RGB-LED-Funktion kann je nach MakeCode-Version variieren. Alternativ ist die Funktion über `neopixel` oder als Block unter der Calliope-Kategorie zugänglich.
-
-2. **Gleichzeitigkeit**: Der Calliope ist kein Multi-Threading-System. Während `basic.pause(5000)` läuft, werden Funk-Ereignisse **gepuffert** und danach verarbeitet. Das bedeutet: Antworten kommen zuverlässig an, aber nicht immer in Echtzeit.
-
-3. **Funk-Reichweite**: Im Klassenraum ist Gruppe 1 ausreichend. Bei vielen parallel laufenden Calliopes im Raum → andere Gruppen wählen (z. B. 11, 22, 33...).
-
-### Didaktische Hinweise
-
-- **Debugging**: Füge `basic.showNumber(receivedNumber)` temporär in den Funk-Empfänger ein, um Nachrichten sichtbar zu machen
-- **Differenzierung**: Schnellere Schüler können mit Kapitel 5 starten; langsamere Schüler können den JavaScript-Code als Ausgangspunkt nehmen und ihn in Blöcke übersetzen
+- **Debugging**: Füge `basic.show_number(received_number)` temporär in den Funk-Empfänger ein, um Nachrichten sichtbar zu machen
+- **`global`-Deklarationen** eignen sich für eine Diskussion über Gültigkeitsbereiche (Scope) von Variablen
+- **Gleichstand-Logik** ist mit einer `for`-Schleife umgesetzt – guter Ausgangspunkt für Schleifen-Diskussionen
+- **Funk-Reichweite**: Im Klassenraum ist Gruppe 1 ausreichend. Bei vielen parallelen Calliopes → andere Gruppen wählen (z. B. 11, 22, 33...)
+- Die RGB-LED-Funktion `calliope.set_rgb_led(r, g, b)` kann je nach MakeCode-Version anders heißen; ggf. in der Kategorie **„Calliope"** im Blöcke-Editor den genauen Namen prüfen
