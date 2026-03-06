@@ -48,17 +48,16 @@ basic.show_icon(IconNames.YES)
 # TASTE A → Runde starten
 # ============================================
 
-@input.on_button_pressed(Button.A)
 def on_button_a():
     if not runde_aktiv:
         runde_starten()
+input.on_button_pressed(Button.A, on_button_a)
 
 
 # ============================================
 # TASTE B → Punktestand anzeigen
 # ============================================
 
-@input.on_button_pressed(Button.B)
 def on_button_b():
     if not runde_aktiv:
         basic.show_string("S1:")
@@ -74,16 +73,17 @@ def on_button_b():
         basic.show_number(punkte_s4)
         basic.pause(300)
         basic.clear_screen()
+input.on_button_pressed(Button.B, on_button_b)
 
 
 # ============================================
 # FUNK: Zahl empfangen (Spieler-Antworten)
 # ============================================
 
-@radio.on_received_number
 def on_received_number(received_number):
     if runde_aktiv and not runde_gewonnen:
         antwort_verarbeiten(received_number)
+radio.on_received_number(on_received_number)
 
 
 # === FUNKTIONEN ===
@@ -105,7 +105,7 @@ def runde_starten():
     # Niemand hat gewonnen?
     if not runde_gewonnen:
         basic.show_string("---")
-        calliope.set_rgb_led(0, 0, 0)
+        calliope_mini.set_rgb_led(0, 0, 0)
     aktuelle_runde += 1
     runde_aktiv = False
     # Spielende prüfen
@@ -116,7 +116,7 @@ def runde_starten():
 def signal_anzeigen():
     if aktuelle_aufgabe == 1:
         # Grün + hoher Ton → Taste A
-        calliope.set_rgb_led(0, 255, 0)
+        calliope_mini.set_rgb_led(0, 255, 0)
         basic.show_leds("""
             # . . . #
             # . . . #
@@ -127,7 +127,7 @@ def signal_anzeigen():
         music.play_tone(Note.A5, music.beat(BeatFraction.WHOLE))
     elif aktuelle_aufgabe == 2:
         # Rot + tiefer Ton → Taste B
-        calliope.set_rgb_led(255, 0, 0)
+        calliope_mini.set_rgb_led(255, 0, 0)
         basic.show_leds("""
             # # # . .
             # . . # .
@@ -138,7 +138,7 @@ def signal_anzeigen():
         music.play_tone(Note.A3, music.beat(BeatFraction.WHOLE))
     elif aktuelle_aufgabe == 3:
         # Blau + mittlerer Ton → A+B gleichzeitig
-        calliope.set_rgb_led(0, 0, 255)
+        calliope_mini.set_rgb_led(0, 0, 255)
         basic.show_icon(IconNames.HEART)
         music.play_tone(Note.A4, music.beat(BeatFraction.WHOLE))
 
@@ -178,12 +178,12 @@ def richtig_geantwortet(sieger_id):
     else:
         punkte_s4 += bonus
     # Gewinner anzeigen
-    calliope.set_rgb_led(0, 255, 0)
+    calliope_mini.set_rgb_led(0, 255, 0)
     basic.show_string("S" + str(sieger_id))
     # Gewinner per Funk melden
     radio.send_value("gewinner", sieger_id)
     basic.pause(2000)
-    calliope.set_rgb_led(0, 0, 0)
+    calliope_mini.set_rgb_led(0, 0, 0)
     basic.clear_screen()
 
 
@@ -227,7 +227,7 @@ def spiel_ende():
     # Ergebnis per Funk senden
     radio.send_value("ende", gesamtsieger)
     # Ergebnis anzeigen
-    calliope.set_rgb_led(255, 200, 0)
+    calliope_mini.set_rgb_led(255, 200, 0)
     basic.show_string("ENDE!")
     basic.pause(500)
     if gleichstand > 1:
@@ -248,7 +248,7 @@ def spiel_ende():
     punkte_s2 = 0
     punkte_s3 = 0
     punkte_s4 = 0
-    calliope.set_rgb_led(0, 0, 0)
+    calliope_mini.set_rgb_led(0, 0, 0)
     basic.clear_screen()
     basic.show_icon(IconNames.YES)
 
@@ -280,8 +280,8 @@ Nach dem Einfügen kannst du in MakeCode auf **„Blöcke"** wechseln – der Co
 
 | Python (MakeCode) | Erklärung |
 |-------------------|-----------|
-| `@input.on_button_pressed(Button.A)` | Dekorator – registriert eine Funktion als Ereignishandler |
-| `@radio.on_received_number` | Wird aufgerufen, wenn eine Zahl per Funk empfangen wird |
+| `input.on_button_pressed(Button.A, handler)` | Registriert `handler` als Funktion, die bei Tastendruck A aufgerufen wird |
+| `radio.on_received_number(handler)` | Wird aufgerufen, wenn eine Zahl per Funk empfangen wird |
 | `global punkte_s1` | In Python muss man globale Variablen mit `global` deklarieren, bevor man sie in einer Funktion ändert |
 | `nachricht // 10` | Ganzzahlige Division (kein Rest) |
 | `nachricht % 10` | Modulo – gibt den Rest der Division zurück |
@@ -320,4 +320,4 @@ def richtig_geantwortet(sieger_id):
 - **`global`-Deklarationen** eignen sich für eine Diskussion über Gültigkeitsbereiche (Scope) von Variablen
 - **Gleichstand-Logik** ist mit einer `for`-Schleife umgesetzt – guter Ausgangspunkt für Schleifen-Diskussionen
 - **Funk-Reichweite**: Im Klassenraum ist Gruppe 1 ausreichend. Bei vielen parallelen Calliopes → andere Gruppen wählen (z. B. 11, 22, 33...)
-- Die RGB-LED-Funktion `calliope.set_rgb_led(r, g, b)` kann je nach MakeCode-Version anders heißen; ggf. in der Kategorie **„Calliope"** im Blöcke-Editor den genauen Namen prüfen
+- Die RGB-LED-Funktion `calliope_mini.set_rgb_led(r, g, b)` kann je nach MakeCode-Version anders heißen; ggf. in der Kategorie **„Calliope"** im Blöcke-Editor den genauen Namen prüfen
