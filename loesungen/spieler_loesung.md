@@ -175,7 +175,7 @@ def on_received_value(name: str, value: int):
             # Ich war falsch!
             basic.set_led_color(basic.rgb(255, 0, 0))
             basic.show_icon(IconNames.NO)
-            music.play_tone(Note.A2, music.beat(BeatFraction.WHOLE))
+            music.play_tone(Note.A3, music.beat(BeatFraction.WHOLE))
             basic.pause(1500)
             basic.set_led_color(basic.rgb(0, 0, 0))
             basic.clear_screen()
@@ -239,12 +239,12 @@ def signal_anzeigen():
         # Gelbes Licht + tiefer Ton → links neigen
         basic.set_led_color(basic.rgb(255, 200, 0))
         basic.show_arrow(ArrowNames.WEST)
-        music.play_tone(Note.A2, music.beat(BeatFraction.HALF))
+        music.play_tone(Note.A3, music.beat(BeatFraction.HALF))
     elif aufgabe == 5:
         # Orange Licht + hoher Ton → rechts neigen
         basic.set_led_color(basic.rgb(255, 100, 0))
         basic.show_arrow(ArrowNames.EAST)
-        music.play_tone(Note.A6, music.beat(BeatFraction.HALF))
+        music.play_tone(Note.B5, music.beat(BeatFraction.HALF))
 ```
 
 ---
