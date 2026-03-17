@@ -1,6 +1,6 @@
-# Kapitel 5: Erweiterungen & eigene Ideen
+# Erweiterungen & eigene Ideen
 
-← [Zurück: Punkte & Anzeige](04_punkte_und_anzeige.md) | [Zurück zur Übersicht](../README.md)
+← [Zurück: Schritt 3](04_schritt3.md) | [Zurück zur Übersicht](../README.md)
 
 ---
 

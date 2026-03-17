@@ -34,10 +34,10 @@ Die Lerneinheit ist in folgende Kapitel aufgeteilt:
 | Kapitel | Inhalt | Schwerpunkt |
 |---------|--------|-------------|
 | [01 Einführung](anleitung/01_einfuehrung.md) | Calliope kennenlernen, MakeCode, Funk-Grundlagen | Grundlagen |
-| [02 Spielleiter](anleitung/02_spielleiter.md) | Signale senden, Antworten empfangen | Funk, Zustand |
-| [03 Spieler](anleitung/03_spieler.md) | Signale empfangen, Aktionen senden | Funk, Eingabe |
-| [04 Punkte & Anzeige](anleitung/04_punkte_und_anzeige.md) | Punkte berechnen, Ergebnis anzeigen | Variablen, Logik |
-| [05 Erweiterungen](anleitung/05_erweiterungen.md) | Eigene Ideen umsetzen | Kreativität |
+| [02 Schritt 1](anleitung/02_schritt1.md) | Grundgerüst beider Programme + erster Funk-Test | Funk, Variablen |
+| [03 Schritt 2](anleitung/03_schritt2.md) | Signale & Reaktionen – erste echte Spielrunde | Funk, Zustand, Logik |
+| [04 Schritt 3](anleitung/04_schritt3.md) | Punkte, Spielende, Gesamtsieger | Variablen, LED-Matrix |
+| [05 Erweiterungen](anleitung/05_erweiterungen.md) | Neigungssensor, Zeitbonus, eigene Ideen | Kreativität |
 
 ---
 
@@ -75,11 +75,11 @@ Nach Abschluss des Projekts können Schülerinnen und Schüler:
 calliope-spiel/
 ├── README.md                    ← diese Datei
 ├── anleitung/
-│   ├── 01_einfuehrung.md
-│   ├── 02_spielleiter.md
-│   ├── 03_spieler.md
-│   ├── 04_punkte_und_anzeige.md
-│   └── 05_erweiterungen.md
+│   ├── 01_einfuehrung.md        ← Calliope, MakeCode, Funk-Grundlagen
+│   ├── 02_schritt1.md           ← Schritt 1: Grundgerüst & erster Funk-Test
+│   ├── 03_schritt2.md           ← Schritt 2: Signale & Reaktionen
+│   ├── 04_schritt3.md           ← Schritt 3: Punkte & Spielende
+│   └── 05_erweiterungen.md      ← Eigene Erweiterungen
 └── loesungen/
     ├── spielleiter_loesung.md
     └── spieler_loesung.md
