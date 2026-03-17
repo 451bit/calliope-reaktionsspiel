@@ -1,9 +1,18 @@
-# 🎮 Calliope Reaktionsspiel – Lerneinheit Klasse 10 Informatik
+# 🎮 Calliope Spielprojekte – Lerneinheit Klasse 10 Informatik
 
 > **Thema:** Vernetzte Systeme & Programmierung mit dem Calliope mini v1  
 > **Werkzeug:** [MakeCode](https://makecode.calliope.cc) (Grafische Blockprogrammierung)  
-> **Dauer:** ca. 6–8 Unterrichtsstunden  
+> **Dauer:** ca. 8–10 Unterrichtsstunden gesamt  
 > **Klassenstufe:** 10 (Informatik)
+
+---
+
+## 📦 Zwei Projekte – ein roter Faden
+
+| Projekt | Beschreibung | Calliopes | Dauer |
+|---------|-------------|:---------:|:-----:|
+| [🏓 00 · Ping-Pong](00_pingpong/README.md) | **Einstieg:** Zwei Calliopes schicken einen virtuellen Ball per Funk hin und her | 2 | ~2–3 h |
+| [⚡ Reaktionsspiel](anleitung/01_einfuehrung.md) | **Hauptprojekt:** Spielleiter gibt Signale, Spieler reagieren, Punkte werden vergeben | 2–5 | ~6–8 h |
 
 ---
 
@@ -27,9 +36,7 @@ In diesem Projekt programmieren Schülerinnen und Schüler ein **Multiplayer-Rea
 
 ---
 
-## 📚 Anleitungen
-
-Die Lerneinheit ist in folgende Kapitel aufgeteilt:
+## 📚 Anleitungen – Reaktionsspiel (Hauptprojekt)
 
 | Kapitel | Inhalt | Schwerpunkt |
 |---------|--------|-------------|
@@ -43,7 +50,7 @@ Die Lerneinheit ist in folgende Kapitel aufgeteilt:
 
 ## 🧰 Voraussetzungen
 
-- **Hardware:** Calliope mini v1 (1× Spielleiter + 1–4× Spieler)
+- **Hardware:** Calliope mini v1 (mind. 2; für das Reaktionsspiel bis zu 5)
 - **USB-Kabel** zum Übertragen der Programme
 - **Browser:** aktueller Chrome oder Edge (für MakeCode)
 - **Vorkenntnisse:** Grundlegende Erfahrung mit Blockprogrammierung (z. B. Scratch)
@@ -54,7 +61,8 @@ Die Lerneinheit ist in folgende Kapitel aufgeteilt:
 
 1. Browser öffnen → [makecode.calliope.cc](https://makecode.calliope.cc)
 2. „Neues Projekt" erstellen
-3. Mit Kapitel [01 – Einführung](anleitung/01_einfuehrung.md) beginnen
+3. **Einstieg:** Mit [🏓 00 – Ping-Pong](00_pingpong/README.md) beginnen
+4. **Hauptprojekt:** Danach [01 – Einführung Reaktionsspiel](anleitung/01_einfuehrung.md)
 
 ---
 
@@ -73,13 +81,18 @@ Nach Abschluss des Projekts können Schülerinnen und Schüler:
 
 ```
 calliope-spiel/
-├── README.md                    ← diese Datei
+├── README.md                          ← diese Datei
+├── 00_pingpong/
+│   ├── README.md                      ← Ping-Pong Projektübersicht
+│   └── anleitung/
+│       ├── 01_grundgeruest.md         ← Schritt 1: Grundgerüst & erster Ball-Test
+│       └── 02_vollstaendiges_spiel.md ← Schritt 2: Rallye-Zähler & Spielende
 ├── anleitung/
-│   ├── 01_einfuehrung.md        ← Calliope, MakeCode, Funk-Grundlagen
-│   ├── 02_schritt1.md           ← Schritt 1: Grundgerüst & erster Funk-Test
-│   ├── 03_schritt2.md           ← Schritt 2: Signale & Reaktionen
-│   ├── 04_schritt3.md           ← Schritt 3: Punkte & Spielende
-│   └── 05_erweiterungen.md      ← Eigene Erweiterungen
+│   ├── 01_einfuehrung.md              ← Calliope, MakeCode, Funk-Grundlagen
+│   ├── 02_schritt1.md                 ← Schritt 1: Grundgerüst & erster Funk-Test
+│   ├── 03_schritt2.md                 ← Schritt 2: Signale & Reaktionen
+│   ├── 04_schritt3.md                 ← Schritt 3: Punkte & Spielende
+│   └── 05_erweiterungen.md            ← Eigene Erweiterungen
 └── loesungen/
     ├── spielleiter_loesung.md
     └── spieler_loesung.md
